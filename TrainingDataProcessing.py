@@ -5,42 +5,60 @@ import matplotlib.pyplot as plt
 import random
 import numpy as np
 
-trainDataDir = 'data/train/'
-testDataDir = 'data/test/'
-IMG_SIZE = 50
-categories = ['cat','dog']
+class CreateTrainingData:
 
-def createTrainingData():
-    training_data = []
-    for fileName in tqdm(os.listdir(trainDataDir)):
-        className = fileName.split('.')[0] # find class name from image name
-        path = os.path.join(trainDataDir,fileName)
-        try:
-            img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-            resizeArr = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
-            training_data.append([resizeArr,categories.index(className)]) # append into training data set as a list of image array and label
-        except Exception as e:
-            print('Error Happened: ',e)
-
-    random.shuffle(training_data) # random order
+    testString = 'hi there'
     x = []
     y = []
-    for feature, label in training_data:
-        x.append(feature)
-        y.append(label)
-    x = np.array(x).reshape(-1, IMG_SIZE, IMG_SIZE, 1) # gray pic only has one chanel
-    return x, y
 
-x, y = createTrainingData()
+    def __init__(self, trainDataDir, testDataDir, imageSize, categories):
+        self.trainDataDir = trainDataDir
+        self.testDataDir = testDataDir
+        self.IMG_SIZE = imageSize
+        self.categories = categories
 
-import pickle
-pickle_out = open("catvsdog_feature.pickle","wb")
-pickle.dump(x, pickle_out)
-pickle_out.close()
+    def createTrainingData(self):
+        training_data = []
+        for fileName in tqdm(os.listdir(self.trainDataDir)):
+            className = fileName.split('.')[0] # find class name from image name
+            path = os.path.join(self.trainDataDir,fileName)
+            try:
+                img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+                resizeArr = cv2.resize(img, (self.IMG_SIZE, self.IMG_SIZE))
+                training_data.append([resizeArr,self.categories.index(className)]) # append into training data set as a list of image array and label
+            except Exception as e:
+                print('Error Happened: ',e)
 
-pickle_out = open("catvsdog_label.pickle","wb")
-pickle.dump(y, pickle_out)
-pickle_out.close()
+        random.shuffle(training_data) # random order
+
+        for feature, label in training_data:
+            self.x.append(feature)
+            self.y.append(label)
+        self.x = np.array(self.x).reshape(-1, self.IMG_SIZE, self.IMG_SIZE, 1) # gray pic only has one chanel
+        return self.x, self.y
+
+    def saveData(self):
+        import pickle
+        pickle_out = open("catvsdog_feature.pickle","wb")
+        pickle.dump(self.x, pickle_out)
+        pickle_out.close()
+
+        pickle_out = open("catvsdog_label.pickle","wb")
+        pickle.dump(self.y, pickle_out)
+        pickle_out.close()
+
+    def isCreated(self):
+        for name in os.listdir():
+            if '.pickle' in name:
+                return True
+        return False
+
+    def pin(self):
+        print(self.testString)
+
+# x, y = createTrainingData()
+#
+
 
 # if want to load data
 # pickle_in = open("X.pickle","rb")
