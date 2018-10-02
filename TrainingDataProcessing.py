@@ -53,6 +53,12 @@ class CreateTrainingData:
                 return True
         return False
 
+    def fetchData(self, path):
+        import pickle
+        pickle_in = open(path,'rb')
+        x = pickle.load(pickle_in)
+        return x
+
     def pin(self):
         print(self.testString)
 
