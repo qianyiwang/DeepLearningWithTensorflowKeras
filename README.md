@@ -5,3 +5,8 @@ Keras has become so popular, that it is now a superset, included with TensorFlow
 ```
 import tensorflow.keras as keras
 ```
+
+## Programs
+- MnistRecognition.py: a test program, using deep neural network to recognize hand writing 0-9
+- TrainingDataProcessing.py: read from data set, create training and testing image array and saved
+- CnnModelTraining.py: create CNN model, fit with the training and testing data
