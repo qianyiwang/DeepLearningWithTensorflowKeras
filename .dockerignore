@@ -1,0 +1,5 @@
+epic_num_reader.model
+data/
+model/
+catvsdog_feature.pickle
+catvsdog_label.pickle
