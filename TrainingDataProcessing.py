@@ -35,6 +35,7 @@ class CreateTrainingData:
             self.x.append(feature)
             self.y.append(label)
         self.x = np.array(self.x).reshape(-1, self.IMG_SIZE, self.IMG_SIZE, 1) # gray pic only has one chanel
+        self.y = np.array(self.y)
         return self.x, self.y
 
     def saveData(self):

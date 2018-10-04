@@ -17,24 +17,24 @@ else:
 
 x = createTraining.fetchData(TRAINING)
 y = createTraining.fetchData(LABEL)
-x_norm = tf.keras.utils.normalize(x, axis=-1)
+x_norm = x/255#tf.keras.utils.normalize(x, axis=-1)
 
 # print(x_norm.shape)
 # print(x_norm.shape[1:])
 model = Sequential()
-model.add(Conv2D(256, (3, 3), input_shape=x_norm.shape[1:], activation='relu')) # x_norm.shape = (25000, 50, 50, 1); input_shape should be 50 of 50 dementions vectors
+model.add(Conv2D(256, (3, 3), input_shape=x_norm.shape[1:], activation=tf.nn.relu)) # x_norm.shape = (25000, 50, 50, 1); input_shape should be 50 of 50 dementions vectors
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
-model.add(Conv2D(256, (3, 3), activation='relu'))
+model.add(Conv2D(256, (3, 3), activation=tf.nn.relu))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
 model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors for the Dense layers
 
-model.add(Dense(64, activation='relu'))
+model.add(Dense(64, activation=tf.nn.relu))
 
-model.add(Dense(1, activation='sigmoid')) # output layer
+model.add(Dense(2, activation=tf.nn.softmax)) # output layer
 
-model.compile(loss='binary_crossentropy',
+model.compile(loss='sparse_categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 

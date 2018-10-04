@@ -4,7 +4,7 @@ mnist = tf.keras.datasets.mnist
 
 # scales data between 0 and 1
 x_train = tf.keras.utils.normalize(x_train, axis=1)
-x_test = tf.keras.utils.normalize(x_test, axis=1) 
+x_test = tf.keras.utils.normalize(x_test, axis=1)
 
 # declear a model from tensorflow keras API
 model = tf.keras.models.Sequential()
